@@ -1,12 +1,16 @@
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework.routers import DefaultRouter
+
+from projects.views import ProjectViewSet
+from tasks.views import TaskViewSet
+
+router = DefaultRouter()
+router.register("projects", ProjectViewSet, basename="projects")
+router.register("tasks", TaskViewSet, basename="tasks")
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include('projects.urls')),
-    path('api/', include('tasks.urls')),
-    path('api/auth/', include('rest_framework.urls')),  # browsable login
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path("admin/", admin.site.urls),
+    path("api/", include(router.urls)),
+    path("api/auth/", include("rest_framework.urls")),  # optional login/logout UI
 ]

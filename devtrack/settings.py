@@ -11,6 +11,15 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+import dj_database_url
+
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'dev-secret')
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
+
+DATABASE_URL = os.getenv('DATABASE_URL', 'sqlite:///db.sqlite3')
+DATABASES = {'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)}
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
