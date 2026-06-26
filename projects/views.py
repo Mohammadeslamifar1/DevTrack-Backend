@@ -16,3 +16,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
+def get_queryset(self):
+    return Project.objects.filter(owner=self.request.user).order_by('-created_at')
