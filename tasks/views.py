@@ -1,25 +1,21 @@
-from rest_framework import viewsets, filters
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.permissions import IsAuthenticated
-
+from rest_framework import viewsets, permissions
 from .models import Task
 from .serializers import TaskSerializer
-from .permissions import IsOwner
 
 class TaskViewSet(viewsets.ModelViewSet):
     serializer_class = TaskSerializer
-    permission_classes = [IsAuthenticated, IsOwner]
-
-    filter_backends = [
-        DjangoFilterBackend,
-        filters.SearchFilter,
-        filters.OrderingFilter,
-    ]
-
-    filterset_fields = ["status", "priority", "project"]
-    search_fields = ["title", "description"]
-    ordering_fields = ["priority", "due_date", "created_at"]
-    ordering = ["-created_at"]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return Task.objects.filter(project__owner=self.request.user)
+        queryset = Task.objects.filter(project__owner=self.request.user)
+
+        project_id = self.request.query_params.get("project")
+        status = self.request.query_params.get("status")
+
+        if project_id:
+            queryset = queryset.filter(project_id=project_id)
+
+        if status:
+            queryset = queryset.filter(status=status)
+
+        return queryset

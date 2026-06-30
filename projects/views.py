@@ -1,28 +1,28 @@
-from rest_framework import viewsets, filters
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.permissions import IsAuthenticated
-
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
+from rest_framework import permissions
 from .models import Project
-from .serializers import ProjectSerializer
-from .permissions import IsOwner
+from tasks.models import Task
 
-class ProjectViewSet(viewsets.ModelViewSet):
-    serializer_class = ProjectSerializer
-    permission_classes = [IsAuthenticated, IsOwner]
+@api_view(["GET"])
+@permission_classes([permissions.IsAuthenticated])
+def dashboard_stats(request):
+    user = request.user
 
-    filter_backends = [
-        DjangoFilterBackend,
-        filters.SearchFilter,
-        filters.OrderingFilter,
-    ]
+    projects = Project.objects.filter(owner=user)
+    tasks = Task.objects.filter(project__owner=user)
 
-    filterset_fields = ["status"]
-    search_fields = ["name", "description"]
-    ordering_fields = ["created_at"]
-    ordering = ["-created_at"]
+    total_projects = projects.count()
+    total_tasks = tasks.count()
 
-    def get_queryset(self):
-        return Project.objects.filter(owner=self.request.user)
+    status_counts = {
+        "todo": tasks.filter(status="todo").count(),
+        "in_progress": tasks.filter(status="in_progress").count(),
+        "done": tasks.filter(status="done").count(),
+    }
 
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+    return Response({
+        "total_projects": total_projects,
+        "total_tasks": total_tasks,
+        "status_counts": status_counts,
+    })
