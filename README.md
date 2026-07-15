@@ -1,163 +1,194 @@
-# DevTrack Backend – Django REST API
+# DevTrack Backend: Django REST API
 
-The DevTrack backend is a fully‑featured REST API built with **Django** and **Django REST Framework**.  
-It provides authentication, project management, task management, analytics, and relational data modeling for the DevTrack SaaS application.
+The DevTrack backend is a fully featured REST API built with **Django** and **Django REST Framework**.
 
-## 🚀 Features
+It provides authentication, project management, task management, dashboard analytics, and relational data modeling for the DevTrack SaaS application.
 
-### 🔐 Authentication
-- JWT authentication (access + refresh tokens)
-- Secure login endpoint
-- Protected API routes
+## Features
 
-### 📁 Projects API
-- Create, update, delete projects
-- User‑scoped project filtering
-- Automatic owner assignment
+### Authentication
 
-### 📝 Tasks API
-- Full CRUD
-- Tasks linked to projects (ForeignKey)
-- Status + priority + due date fields
-- Filtering by project and status
+* JWT authentication with access and refresh tokens
+* Secure login endpoint
+* Protected API routes
 
-### 📊 Dashboard Analytics
-- Total projects
-- Total tasks
-- Tasks grouped by status
+### Projects API
 
-### 🛠 Tech Stack
-- Python 3
-- Django
-- Django REST Framework
-- SimpleJWT
-- PostgreSQL (recommended)
+* Create, update, and delete projects
+* User scoped project filtering
+* Automatic owner assignment
+
+### Tasks API
+
+* Full CRUD support
+* Tasks linked to projects with ForeignKey
+* Status, priority, and due date fields
+* Filtering by project and status
+
+### Dashboard Analytics
+
+* Total projects
+* Total tasks
+* Tasks grouped by status
+
+### Tech Stack
+
+* Python 3
+* Django
+* Django REST Framework
+* SimpleJWT
+* PostgreSQL recommended
 
 ## Running the full stack locally
 
-1. Start the backend
+### Start the backend
+
 ```powershell
 cd backend
 .\env\Scripts\Activate.ps1
 python manage.py runserver
+```
 
+### Start the frontend
+
+```powershell
 cd frontend
 npm install
 npm run dev
+```
 
+## Project Structure
 
-
-## 🧱 Project Structure
-
+```text
 devtrack/
 ├── accounts/
 ├── projects/
 ├── tasks/
-├── devtrack/        # main Django project
+├── devtrack/
 └── manage.py
+```
 
-## 🔧 Installation
+## Installation
 
-### 1. Clone the repository
+### Clone the repository
+
 ```bash
 git clone https://github.com/YOUR_USERNAME/devtrack-backend.git
 cd devtrack-backend
+```
 
-### Create virtual environment
+### Create a virtual environment
+
+```bash
 python -m venv venv
-source venv/bin/activate   # macOS/Linux
-venv\Scripts\activate      # Windows
+source venv/bin/activate
+```
+
+For Windows PowerShell:
+
+```powershell
+venv\Scripts\Activate.ps1
+```
 
 ### Install dependencies
-pip install -r requirements.txt
 
-###Apply migrations
+```bash
+pip install -r requirements.txt
+```
+
+### Apply migrations
+
+```bash
 python manage.py migrate
+```
+
+### Create a superuser
+
+```bash
+python manage.py createsuperuser
+```
 
 ### Run the server
-python manage.py runserver
 
-## 🔗 API Endpoints
+```bash
+python manage.py runserver
+```
+
+## API Endpoints
 
 ### Auth
+
+```text
 POST /api/token/
 POST /api/token/refresh/
+```
 
 ### Projects
+
+```text
 GET    /api/projects/
 POST   /api/projects/
 PUT    /api/projects/:id/
 DELETE /api/projects/:id/
+```
 
 ### Tasks
+
+```text
 GET    /api/tasks/?project=<id>&status=<status>
 POST   /api/tasks/
 PUT    /api/tasks/:id/
 DELETE /api/tasks/:id/
+```
 
 ### Dashboard Analytics
-GET /api/dashboard-stats/
 
-## 🧬 Models Overview
+```text
+GET /api/dashboard-stats/
+```
+
+## Models Overview
 
 ### Project Model
-- owner (ForeignKey → User)
-- name
-- description
-- created_at
+
+* owner ForeignKey to User
+* name
+* description
+* created_at
 
 ### Task Model
-- project (ForeignKey → Project)
-- title
-- description
-- status (todo, in_progress, done)
-- priority (low, medium, high)
-- due_date
-- created_at
 
-## Backend — Quick start (Django)
+* project ForeignKey to Project
+* title
+* description
+* status: todo, in_progress, done
+* priority: low, medium, high
+* due_date
+* created_at
 
-**Prerequisites**
-- Python 3.10+ installed
-- Node/npm only required if you run frontend from this repo
-- Git
+## Example token request
 
-**Install and activate virtualenv**
 ```powershell
-cd /path/to/backend
-python -m venv env
-.\env\Scripts\Activate.ps1   # PowerShell
-# or: source env/bin/activate  # macOS / Linux
-pip install -r requirements.txt
-
-**Run migrations and create superuser**
-python manage.py migrate
-python manage.py createsuperuser
-
-python manage.py runserver --noreload --verbosity 3
-
-Example token request (curl, PowerShell safe)
 curl.exe -v -X POST http://127.0.0.1:8000/api/token/ -H "Content-Type: application/json" --data-raw '{"username":"admin","password":"123456"}'
+```
 
-
-
-## 🧑‍💻 Author
+## Author
 
 **Mohammad Eslamifar**  
-Full‑Stack Developer  
+Full Stack Developer  
 Rome, Italy
 
-## ⭐ Why This Backend Matters
+## Why This Backend Matters
 
 This backend demonstrates professional API engineering:
 
-- JWT authentication  
-- Protected routes  
-- Relational database modeling  
-- REST API design  
-- Analytics endpoints  
-- Clean Django app structure  
-- DRF best practices  
-- Filtering, querying, and serialization 
+* JWT authentication
+* Protected routes
+* Relational database modeling
+* REST API design
+* Analytics endpoints
+* Clean Django app structure
+* DRF best practices
+* Filtering, querying, and serialization
 
-⭐ If you like this project, consider starring the repo!
+If you like this project, consider starring the repo.
