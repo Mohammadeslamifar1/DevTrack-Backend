@@ -17,9 +17,6 @@ import dj_database_url
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'dev-secret')
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
-DATABASE_URL = os.getenv('DATABASE_URL', 'sqlite:///db.sqlite3')
-DATABASES = {'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)}
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -69,9 +66,11 @@ INSTALLED_APPS = [
     'accounts',
     'projects',
     'tasks',
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -135,6 +134,9 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "A professional task & project management backend built with Django REST Framework.",
     "VERSION": "1.0.0",
 }
+
+CORS_ALLOW_ALL_ORIGINS = True
+
 
 
 

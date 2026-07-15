@@ -1,7 +1,9 @@
+from rest_framework import viewsets, permissions
+from .models import Project
+from .serializers import ProjectSerializer
+
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from rest_framework import permissions
-from .models import Project
 from tasks.models import Task
 
 @api_view(["GET"])
@@ -26,3 +28,15 @@ def dashboard_stats(request):
         "total_tasks": total_tasks,
         "status_counts": status_counts,
     })
+
+
+class ProjectViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Project.objects.all()
+
+    def get_queryset(self):
+        # Only return projects owned by the logged-in user
+        user = self.request.user
+        return Project.objects.filter(owner=user)
+
+    serializer_class = ProjectSerializer
