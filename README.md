@@ -1,7 +1,6 @@
 # DevTrack Backend: Django REST API
 
-The DevTrack backend is a fully featured REST API built with **Django** and **Django REST Framework**.
-
+The DevTrack backend is a REST API built with Django and Django REST Framework.
 It provides authentication, project management, task management, dashboard analytics, and relational data modeling for the DevTrack SaaS application.
 
 ## Features
@@ -61,11 +60,11 @@ npm run dev
 
 ```text
 devtrack/
-├── accounts/
-├── projects/
-├── tasks/
-├── devtrack/
-└── manage.py
+  accounts/
+  projects/
+  tasks/
+  devtrack/
+  manage.py
 ```
 
 ## Installation
@@ -81,6 +80,11 @@ cd devtrack-backend
 
 ```bash
 python -m venv venv
+```
+
+For macOS or Linux:
+
+```bash
 source venv/bin/activate
 ```
 
@@ -174,8 +178,8 @@ curl.exe -v -X POST http://127.0.0.1:8000/api/token/ -H "Content-Type: applicati
 
 ## Author
 
-**Mohammad Eslamifar**  
-Full Stack Developer  
+**Mohammad Eslamifar**
+Full Stack Developer
 Rome, Italy
 
 ## Why This Backend Matters
